@@ -1,0 +1,102 @@
+<header>
+  <nav class="nav">
+    <div class="navContainer">
+      <div class="menu">
+       
+        <a href="#" id="carrito"
+          ><ion-icon class="shop-nav" name="cart-outline"></ion-icon>
+          <div 
+            id="popupCart" 
+            class="cant-carrito-total" 
+            {{#if emptyCart}} {{else}} style="opacity: 1" {{/if}}>
+            <p>{{countCart}}</p> </div></a>
+      </div>
+      <div class="burger">
+        <a href="#" id="carrito_xs"
+          ><ion-icon name="cart-outline"></ion-icon>
+          <div
+            id="popupCartXs"
+            class="cant-carrito-total-xs" 
+            {{#if emptyCart}} {{else}} style="opacity: 1" {{/if}}>
+            <p>{{countCart}}</p>
+          </div>
+        </a>
+        <button class="cartIcon">
+
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="modal-carrito" id="modal-carrito">
+    <div class="modal-container">
+      <h3 class="modal-title">Carrito</h3>
+      <ion-icon
+        class="close-carrito"
+        id="close-carrito"
+        name="close-outline"
+      ></ion-icon>
+
+      <div class="conten-carrito">
+        <ul class="cardPrevius" id="cardPrevius">
+          {{#if emptyCart}}
+            
+          <h6>No hay items</h6>
+          {{else}}
+            {{#each cartsProducts}}
+              <li class="cardPreviusItems">
+                 <div class="img-info">
+                  <img
+                    alt={{this.title}}
+                    class="imgCartPrevius"
+                    src={{this.thumbnail}}
+                  ></img>
+                  <div class="infoPrevius">
+                    <p class="infoTitle">{{this.title}}</p>
+                    <p class="infoCant">
+                      <strong>{{this.quantity}} </strong>x<strong> {{this.price}}</strong>
+                    </p>
+                    <div class="infoFin">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="delete-price">
+                  <div class="cartDelete" id="cartDelete" data-id={{this.id}}>
+                    <span class="icon">
+	                  	<span class="lid"></span>
+	                  	<span class="can"></span>
+	                  	<span class="trash"></span>
+	                  </span>
+                  </div>
+                  <div class="price-conten">
+                    <p>$</p>
+                    <p class="price">{{this.totalPrice}}</p>
+                  </div>
+                </div>
+              </li>
+            {{/each}}
+          {{/if}}
+        </ul>
+      </div>
+      <div class="total-carrito" id="sectionTotal" {{#if emptyCart}} style="display:none" {{else}} {{/if}}>
+        <p class="total-text">Total:</p>
+          <div class="price-conten">
+            <p>$</p>
+            <p class="price" id="totalCart">{{totalCart}}</p>
+          </div>
+      </div>
+      <div class="buttons-carrito" id="sectionButtons" {{#if emptyCart}} style="display:none" {{else}} {{/if}}>
+        <button class="vaciar" id="vaciar-carrito">
+
+          <p class="button-text">Eliminar</p>
+        </button>
+        <button class="comprar" id="comprar">
+          <a class="purchaser-link" id="purchaser-link" href={{buyLink}}>
+            <p class="button-text">Comprar</p>
+          </a>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

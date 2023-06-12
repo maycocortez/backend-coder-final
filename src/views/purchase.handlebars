@@ -1,0 +1,64 @@
+<main class="mainHome">
+  {{> user}}
+  <div class="checkout-main">
+    <div class="cart-purchase">
+      <h6 class="cart-purchase-title">Resumen</h6>
+      {{#each cartsProducts}}
+        <li class="cardPreviusItems">
+           <div class="img-info">
+            <img
+              alt={{this.title}}
+              class="imgCartPrevius"
+              src={{this.thumbnail}}
+            ></img>
+            <div class="infoPrevius">
+              <p class="infoTitle">{{this.title}}</p>
+              <p class="infoCant">
+                <strong>{{this.quantity}} </strong>x<strong> {{this.price}}</strong>
+              </p>
+              <div class="infoFin">
+
+              </div>
+            </div>
+          </div>
+          <div class="delete-price">
+            <div class="cartDelete" id="cartDelete" data-id={{this.id}}>
+              <span class="icon">
+	            	<span class="lid"></span>
+	            	<span class="can"></span>
+	            	<span class="trash"></span>
+	            </span>
+            </div>
+            <div class="price-conten">
+              <p>$</p>
+              <p class="price">{{this.totalPrice}}</p>
+            </div>
+          </div>
+        </li>
+      {{/each}}
+      <div>
+        <h6>Total</h6>
+        <div class="price-conten">
+          <p>$</p>
+          <p class="price">{{totalCart}}</p>
+        </div>
+        </div>
+    </div>
+    <div class="form-purchase">
+      <h6 class="form-purchase-title">Ingresa tus datos</h6>
+      <form id="form-purchase" action="/purchase" method="post">
+        <div class="field">
+          <input class="name" type="text" name="name" placeholder="Nombre completo">
+        </div>
+        <div class="field">
+          <input class="address" name="address" type="text" placeholder="Direccion">
+        </div>
+        <div class="btn-purchase" >
+          <input class="input-purchase" type="submit" value="Comprar">
+        </div>
+      </form>
+    </div>
+  </div>
+
+</main>
+<script type="module" src="/js/purchase.js"></script>

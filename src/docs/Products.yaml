@@ -1,0 +1,138 @@
+paths:
+  /mongoose/products/:
+    get:
+      summary: 'Ruta productos'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'Conexion exitosa'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        '500':
+          description: 'Error en el servidor'
+    post:
+      summary: Crear Producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Post'
+      responses:
+        '200':
+          description: 'Producto creado'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/Product'
+        '404':
+          description: 'No se encuentra el producto'
+        '500':
+          description: 'Error en el servidor'
+    put:
+      summary: 'Actualizar producto por id'
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id a actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Post'
+      responses:
+        '200':
+          description: 'Producto actualizado'
+        '404':
+          description: 'Producto no encontrado'
+        '500':
+          description: 'Error en el servidor'
+    delete:
+      summary: 'Eliminar productos por id'
+      tags:
+        - Productos
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id a eliminar
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: 'Producto eliminado'
+        '404':
+          description: 'Producto no encontrado'
+        '500':
+          description: 'Error en el servidor'
+  /mongoose/products/{uid}:
+    get:
+      summary: 'Productos por id'
+      tags:
+        - Productos
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id del producto
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: 'Conexion exitosa'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/Product'
+        '404':
+          description: 'No se encontro el producto'
+        '500':
+          description: 'Error en el servidor'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id auto
+        title:
+          type: String
+          description: Titulo
+        description:
+          type: String
+          description: Descripcion
+        price:
+          type: String
+          description: Precio
+        category:
+          type: String
+          description: Categoria
+        code:
+          type: String
+          description: Codigo
+        stock:
+          type: String
+          description: Stock
+      required:
+        - title
+        - description
+        - price
+        - category
+        - code
+        - stock

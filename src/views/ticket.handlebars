@@ -1,0 +1,38 @@
+<main class='mainHome'>
+  <div >
+    <div >
+    </div>
+    <h3>Ticket</h3>
+    <div>
+
+    </div>
+
+
+
+    {{#each products}}
+      <div>
+            <p> Nombre: {{this.name}}</p>
+          <p>Precio: $ {{this.price}}</p>
+          <span>Cantidad de unidades : {{this.quantity}}</span>
+         <p>Total: $ {{this.totalPrice}}</p>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+
+
+
+    <div>
+      <span>Total</span>
+
+        <p>$</p>
+        <p >{{amount}}</p>
+    </div>
+    <div>Nombre:
+      <strong>{{namePurchase}}</strong></div>
+    <div>Dirección: <strong>{{address}}</strong></div>
+    <div ><span> Codigo :{{code}}</span></div>
+      <a href="/products/1">Volver al inicio</a>
+
+  </div>
+</main>

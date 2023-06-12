@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chat</h1>
+      <div id="users"></div>
+      <div id="messages"></div>
+      <div id="input-container">
+        <input type="text" id="message" />
+        <button id="send">Enviar</button>
+      </div>
+    </div>
+
+    <script>
+      const socket = io();
+
+      let name = '';
+
+      Swal.fire({
+        title: 'Ingrese su nombre',
+        input: 'text',
+        inputValidator: (value) => {
+          if (!value) {
+            return 'Por favor ingrese su nombre';
+          }
+        },
+        allowOutsideClick: false,
+      }).then((result) => {
+        name = result.value;
+        socket.emit('userConnected', name);
+      });
+
+      const usersContainer = document.getElementById('users');
+      const messagesContainer = document.getElementById('messages');
+      const messageInput = document.getElementById('message');
+      const sendButton = document.getElementById('send');
+
+      const addUser = (name) => {
+        const userElement = document.createElement('div');
+        userElement.textContent = name;
+        usersContainer.appendChild(userElement);
+      };
+
+      const removeUser = (name) => {
+        const userElement = usersContainer.querySelector(`div:contains(${name})`);
+        if (userElement) {
+          userElement.remove();
+        }
+      };
+
+      const addMessage = (name, message, isOwn) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        if (isOwn) {
+          messageElement.classList.add('own');
+        }
+        messageElement.innerHTML = `
+          <span class="name">${name}:</span>
+          <span class="text">${message}</span>
+        `;
+        messagesContainer.appendChild(messageElement);
+      };
+
+      socket.on('userConnected', (name) => {
+        addUser(name);
+        addMessage('', `${name} has joined the chat`, false);
+      });
+
+      socket.on('userDisconnected', (name) => {
+        removeUser(name);
+        addMessage('', `${name} has left the chat`, false);
+      });
+
+      socket.on('messageReceived', ({ name, message, isOwn }) => {
+        addMessage(name, message, isOwn);
+      });
+
+      sendButton.addEventListener('click', () => {
+        const message = messageInput.value.trim();
+        if (message) {
+          socket.emit('sendMessage', message);
+          addMessage(name, message, true);
+          messageInput.value = '';
+        }
+      });
+
+      messageInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          sendButton.click();
+        }
+      });
+    </script>
+  </body>
+</html>

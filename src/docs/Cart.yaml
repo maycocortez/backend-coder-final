@@ -1,0 +1,111 @@
+paths:
+  /mongoose/carts/:
+    get:
+      summary: 'Ruta carrito'
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: 'Conexion exitosa'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Cart'
+        '500':
+          description: 'Error en el servidor'
+    post:
+      summary: Crear carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: 'Carrito creado'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/Cart'
+        '500':
+          description: 'Error en el servidor'
+    put:
+      summary: 'Actualizar carrito por id'
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id a actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Cart'
+      responses:
+        '200':
+          description: 'Carrito actualizado'
+        '404':
+          description: 'Carrito no encontrado'
+        '500':
+          description: 'Error en el servidor'
+    delete:
+      summary: 'Eliminar carrito por id'
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id a eliminar
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: 'Carrito eliminado'
+        '404':
+          description: 'No se encontro el carrito'
+        '500':
+          description: 'Error en el servidor'
+  /mongoose/carts/{uid}:
+    get:
+      summary: 'Carrito por id'
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id cart
+          schema:
+            $type: String
+      responses:
+        '200':
+          description: 'Conexion exitosa'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/Cart'
+        '404':
+          description: 'No se encontro el carrito'
+        '500':
+          description: 'Error en el servidor'
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id auto
+        products:
+          type: array
+          description: Productos
+      example:
+        _id: ObjectId('640675c34d14e645df804cbd')
+        products: [{ _id: ObjectId('640675c34d14e645df804cba') }]

@@ -1,0 +1,9 @@
+{"level":"info","message":"Mensaje de info desde el endpoint  (producción)","timestamp":"2023-05-21T00:25:22.532Z"}
+{"level":"warning","message":"Mensaje de warning desde el endpoint (producción)","timestamp":"2023-05-21T00:25:22.533Z"}
+{"level":"error","message":"Mensaje de error desde el endpoint  (producción)","timestamp":"2023-05-21T00:25:22.534Z"}
+{"level":"info","message":"Mensaje de info desde el endpoin (producción)","timestamp":"2023-05-21T01:46:44.690Z"}
+{"level":"warning","message":"Mensaje de warning desde el endpoin (producción)","timestamp":"2023-05-21T01:46:44.692Z"}
+{"level":"error","message":"Mensaje de error desde el endpoin (producción)","timestamp":"2023-05-21T01:46:44.693Z"}
+{"level":"info","message":"Mensaje de info desde el endpoin (producción)","timestamp":"2023-05-21T17:10:13.895Z"}
+{"level":"warning","message":"Mensaje de warning desde el endpoin (producción)","timestamp":"2023-05-21T17:10:13.909Z"}
+{"level":"error","message":"Mensaje de error desde el endpoin (producción)","timestamp":"2023-05-21T17:10:13.912Z"}
