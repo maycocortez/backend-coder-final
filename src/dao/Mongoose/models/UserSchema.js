@@ -20,24 +20,31 @@ const UserSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Cart'
     },
-    password: { type: String }
+    password: { type: String },
+    documents: [
+      {
+        name: { type: String },
+        reference: { type: String }
+      }
+    ],
+    last_connection: { type: Date }
   },
   {
     timestamps: true,
     versionKey: false
   }
-)
+);
 
 UserSchema.static('encryptPassword', async password => {
   return bcrypt.hashSync(
     password,
     bcrypt.genSaltSync(parseInt(process.env.SALT))
-  )
-})
+  );
+});
 
 UserSchema.static('comparePassword', async (password, receivedPassword) => {
-  return bcrypt.compareSync(password, receivedPassword)
-})
+  return bcrypt.compareSync(password, receivedPassword);
+});
 
 UserSchema.static('createToken', async user => {
   const token = jwt.sign(
@@ -46,17 +53,17 @@ UserSchema.static('createToken', async user => {
     {
       expiresIn: '24h'
     }
-  )
-  return token
-})
+  );
+  return token;
+});
 
 UserSchema.static('verifyToken', async token => {
-  return jwt.verify(token, process.env.JWT)
-})
+  return jwt.verify(token, process.env.JWT);
+});
 
 UserSchema.static('addCartToUser', async () => {
-  const newCart = await cartsModel.create({ products: [] })
-  return newCart._id
-})
+  const newCart = await cartsModel.create({ products: [] });
+  return newCart._id;
+});
 
-export default model('User', UserSchema)
+export default model('User', UserSchema);

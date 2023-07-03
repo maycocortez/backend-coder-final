@@ -40,6 +40,32 @@ class UserService {
   verifyToken = async token => {
     return await userModel.verifyToken(token)
   }
+
+  updateUserDocumentsStatus = async (userId, files) => {
+    try {
+      const user = await this.model.findByIdUser(userId);
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+
+      // Obtener los nombres y referencias de los documentos subidos
+      const documents = files.map(file => ({
+        name: file.originalname,
+        reference: file.filename
+      }));
+
+      // Actualizar el usuario con los nuevos documentos
+      user.documents = documents;
+      await user.save();
+
+      return user;
+    } catch (error) {
+      throw new Error(`Error al actualizar el estado de los documentos del usuario: ${error.message}`);
+    }
+  }
+
+
+
 }
 
 export default UserService
