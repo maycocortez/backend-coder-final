@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const productInCart = new Schema(
+const newProduct = new Schema(
   {
     _id: {
       type: Schema.Types.ObjectId,
@@ -16,7 +16,7 @@ const productInCart = new Schema(
 
 const CartsSchema = new Schema(
   {
-    products: [productInCart],
+    products: [newProduct],
   },
   {
     timestamps: true,

@@ -6,7 +6,7 @@ import * as path from "path";
 import __dirname from "./utils.js";
 import { engine } from "express-handlebars";
 import router from "./routes/routes.js";
-import connectionMongoose from "./connection/mongoose.js";
+import connection from "./connection/mongoose.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";

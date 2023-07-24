@@ -1,47 +1,50 @@
-const signupLink = document.getElementById("signup-link");
-const loginLink = document.getElementById("login-link");
-const passwordLogin = document.getElementById("passwordLogin");
-const eyeBtn = document.getElementById("eyeBtn");
-const wrapper = document.getElementById("wrapper");
-const slideLogin = document.getElementById("slideLogin");
-const slideSignup = document.getElementById("slideSignup");
-const eyeBtnSignup = document.getElementById('eyeBtnSignup')
-const passwordSignup1 = document.getElementById('passwordSignup1')
-const passwordSignup2 = document.getElementById('passwordSignup2')
+const getElement = (id) => document.getElementById(id);
 
-eyeBtn.addEventListener("click", () => {
-  if (passwordLogin.type === "password") {
-    passwordLogin.setAttribute("type", "text");
-    eyeBtn.classList.add("hide");
+const togglePasswordVisibility = (passwordInput, eyeButton) => {
+  if (passwordInput.type === "password") {
+    passwordInput.setAttribute("type", "text");
+    eyeButton.classList.add("hide");
   } else {
-    passwordLogin.setAttribute("type", "password");
-    eyeBtn.classList.remove("hide");
+    passwordInput.setAttribute("type", "password");
+    eyeButton.classList.remove("hide");
   }
-});
+};
 
-eyeBtnSignup.addEventListener("click", () => {
-  if (passwordSignup1.type === "password") {
-    passwordSignup1.setAttribute("type", "text");
-    passwordSignup2.setAttribute("type", "text");
-    eyeBtnSignup.classList.add("hide");
-  } else {
-    passwordSignup1.setAttribute("type", "password");
-    passwordSignup2.setAttribute("type", "password");
-    eyeBtnSignup.classList.remove("hide");
-  }
-});
+const toggleSlide = () => {
+  wrapper.classList.toggle("active");
+};
 
-slideLogin.addEventListener("click", () => {
-  wrapper.classList.toggle("active");
-});
-slideSignup.addEventListener("click", () => {
-  wrapper.classList.toggle("active");
-});
-signupLink.onclick = () => {
+const handleSignupLinkClick = () => {
   slideSignup.click();
   return false;
 };
-loginLink.onclick = () => {
+
+const handleLoginLinkClick = () => {
   slideLogin.click();
   return false;
 };
+
+const signupLink = getElement("signup-link");
+const loginLink = getElement("login-link");
+const passwordLogin = getElement("passwordLogin");
+const eyeBtn = getElement("eyeBtn");
+const wrapper = getElement("wrapper");
+const slideLogin = getElement("slideLogin");
+const slideSignup = getElement("slideSignup");
+const eyeBtnSignup = getElement('eyeBtnSignup');
+const passwordSignup1 = getElement('passwordSignup1');
+const passwordSignup2 = getElement('passwordSignup2');
+
+eyeBtn.addEventListener("click", () => {
+  togglePasswordVisibility(passwordLogin, eyeBtn);
+});
+
+eyeBtnSignup.addEventListener("click", () => {
+  togglePasswordVisibility(passwordSignup1, eyeBtnSignup);
+  togglePasswordVisibility(passwordSignup2, eyeBtnSignup);
+});
+
+slideLogin.addEventListener("click", toggleSlide);
+slideSignup.addEventListener("click", toggleSlide);
+signupLink.onclick = handleSignupLinkClick;
+loginLink.onclick = handleLoginLinkClick;

@@ -1,18 +1,19 @@
-import express, { Router } from 'express'
+import express from 'express';
+import { Router } from 'express';
+import { cartProduct } from './productsNew.js';
+import { createTicket } from '../services/ticket.js';
+import { findCartByIdAndUpdate } from '../services/cart.js';
+import CrudMongoose from '../dao/Mongoose/controllers/ProductManager.js';
+import CustomErrors from '../helpers/customErrors.js';
 import __dirname from '../utils.js'
-import { cartProduct } from './productsNew.js'
-import { createTicket } from '../services/ticket.js'
-import { findCartByIdAndUpdate } from '../services/cart.js'
-import CrudMongoose from '../dao/Mongoose/controllers/ProductManager.js'
-import CustomErrors from '../helpers/customErrors.js'
 
 const purchaseRouter = Router()
 const Products = new CrudMongoose()
 
 
-const errors = new CustomErrors()
+const customErrors = new CustomErrors()
 
-const dataFilter = async idProduct => {
+const data = async idProduct => {
   const product = await Products.findProductsById(idProduct)
   const { title,description,price,status,category,thumbnail,code,stock} = product
   return { title, description,price,status,category,thumbnail,code,stock}
@@ -34,7 +35,7 @@ purchaseRouter
           totalCart: cart.totalCart
         })
       } catch (error) {
-        next(errors.internal('Error'))
+        next(customErrors.internal('Error'))
       }
     } else {
       return res.status(200).redirect('/api/session')
@@ -45,7 +46,7 @@ purchaseRouter
       const cart = await cartProduct(req.session.cartId)
       for (let i = 0; i < cart.productsInCart.length; i++) {
         const idProduct = cart.productsInCart[i].id
-        const dataProduct = await dataFilter(idProduct)
+        const dataProduct = await data(idProduct)
         dataProduct.stock = dataProduct.stock - cart.productsInCart[i].quantity
         await Products.updateProducts(idProduct, dataProduct)
       }
@@ -75,7 +76,7 @@ purchaseRouter
       await findCartByIdAndUpdate(req.session.cartId, { products: [] })
       return res.status(200).redirect('/ticket')
     } catch (error) {
-      next(errors.internal('Error'))
+      next(customErrors.internal('Error'))
     }
   })
 

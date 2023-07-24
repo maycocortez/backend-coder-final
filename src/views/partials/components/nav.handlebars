@@ -11,7 +11,7 @@
             {{#if emptyCart}} {{else}} style="opacity: 1" {{/if}}>
             <p>{{countCart}}</p> </div></a>
       </div>
-      <div class="burger">
+      <div class="navCircle">
         <a href="#" id="carrito_xs"
           ><ion-icon name="cart-outline"></ion-icon>
           <div
@@ -38,7 +38,7 @@
       ></ion-icon>
 
       <div class="conten-carrito">
-        <ul class="cardPrevius" id="cardPrevius">
+        <ul class="cartInfo" id="cartInfo">
           {{#if emptyCart}}
             
           <h6>No hay items</h6>
@@ -62,7 +62,7 @@
                   </div>
                 </div>
                 <div class="delete-price">
-                  <div class="cartDelete" id="cartDelete" data-id={{this.id}}>
+                  <div class="removeProducts" id="removeProducts" data-id={{this.id}}>
                     <span class="icon">
 	                  	<span class="lid"></span>
 	                  	<span class="can"></span>
@@ -87,7 +87,7 @@
           </div>
       </div>
       <div class="buttons-carrito" id="sectionButtons" {{#if emptyCart}} style="display:none" {{else}} {{/if}}>
-        <button class="vaciar" id="vaciar-carrito">
+        <button class="vaciar" id="deleteFrom">
 
           <p class="button-text">Eliminar</p>
         </button>

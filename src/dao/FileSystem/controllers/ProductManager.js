@@ -52,13 +52,17 @@ getProducts = async () => {
    updateProducts = async ({id, ...producto}) => {
     await this.deleteProductById(id)
     let productUpdate = await this.readProducts()
+    console.log(productUpdate)
     let updateProd = [
       {...producto, id},
       ...productUpdate
+      
     ]
     await fs.writeFile(this.path, JSON.stringify(updateProd))
-    console.log("Actualizado")
-  } }
+
+  } 
+
+}
 
 
 const productManager = new ProductManager();

@@ -1,27 +1,27 @@
 import { Router } from "express";
 import CartMongooseManager from "../dao/Mongoose/controllers/CartsManager.js";
 
-const cartsMongooseRouter = Router();
-const cartsByMongoose = new CartMongooseManager();
+const dinamicCartsRouter = Router();
+const dinamicCarts = new CartMongooseManager();
 
-cartsMongooseRouter
+dinamicCartsRouter
   .get("/", async (req, res) => {
     try {
-      res.status(200).send(await cartsByMongoose.findCarts());
+      res.status(200).send(await dinamicCarts.findCarts());
     } catch (err) {
       res.status(404).send("Error en la consulta", err);
     }
   })
   .get("/:id", async (req, res) => {
     try {
-      res.status(200).send(await cartsByMongoose.findCartsById(req.params.id));
+      res.status(200).send(await dinamicCarts.findCartsById(req.params.id));
     } catch (err) {
       res.status(404).send("Error en la consulta", err);
     }
   })
   .post("/", async (req, res) => {
     try {
-      res.status(200).send(await cartsByMongoose.createCarts());
+      res.status(200).send(await dinamicCarts.createCarts());
     } catch (err) {
       res.status(404).send("Error al crear", err);
     }
@@ -31,7 +31,7 @@ cartsMongooseRouter
       res
         .status(200)
         .send(
-          await cartsByMongoose.addProductToCart(req.params.idc, req.params.idp)
+          await dinamicCarts.addProductToCart(req.params.idc, req.params.idp)
         );
     } catch (err) {
       res.status(404).send("Error al agregar", err);
@@ -42,7 +42,7 @@ cartsMongooseRouter
       res
         .status(200)
         .send(
-          await cartsByMongoose.updateProductToCart(
+          await dinamicCarts.updateProductToCart(
             req.params.idc,
             req.params.idp,
             parseInt(req.body.quantity)
@@ -52,9 +52,19 @@ cartsMongooseRouter
       res.status(404).send("No se pudo actualizar", err);
     }
   })
+  .put("/:idc/product/:idp/update-products", async (req, res) => {
+    try {
+      const result = await dinamicCarts.updateCartsProducts();
+      res.status(200).send(result);
+    } catch (err) {
+      res
+        .status(404)
+        .send("Error al actualizar los productos de los carritos", err);
+    }
+  })
   .delete("/:id", async (req, res) => {
     try {
-      res.status(200).send(await cartsByMongoose.deleteCarts(req.params.id));
+      res.status(200).send(await dinamicCarts.deleteCarts(req.params.id));
     } catch (err) {
       res.status(404).send("Error al eliminar", err);
     }
@@ -64,7 +74,7 @@ cartsMongooseRouter
       res
         .status(200)
         .send(
-          await cartsByMongoose.deleteProductToCart(
+          await dinamicCarts.deleteProductToCart(
             req.params.idc,
             req.params.idp
           )
@@ -72,6 +82,14 @@ cartsMongooseRouter
     } catch (err) {
       res.status(404).send("Error", err);
     }
+  })
+
+  .delete("/:idc/products", async (req, res) => {
+    try {
+      res.status(200).send(await dinamicCarts.deleteAllProductsFromCart(req.params.idc));
+    } catch (err) {
+      res.status(404).send("Error", err);
+    }
   });
 
-export default cartsMongooseRouter;
+export default dinamicCartsRouter;

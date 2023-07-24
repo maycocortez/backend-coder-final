@@ -43,10 +43,10 @@ class CartManager {
 
     addCarts = async () => {
       let id = Math.floor(Math.random() * 1000 + 1);
-      let cartsOld = await this.readCarts();
+      let oldCarts = await this.readCarts();
       let allCarts = [];
-      if (Array.isArray(cartsOld)) {
-        allCarts = [...cartsOld, { id: id, productos: [] }];
+      if (Array.isArray(oldCarts)) {
+        allCarts = [...oldCarts, { id: id, productos: [] }];
       } else {
         allCarts = [{ id: id, productos: [] }];
       }
@@ -55,9 +55,9 @@ class CartManager {
 
 
     getCartById = async (id) => {
-      let existCart = await this.exist(id);
-      if (!existCart) return 404;
-      return existCart.productos;
+      let actualCarts = await this.exist(id);
+      if (!actualCarts) return 404;
+      return actualCarts.productos;
     };
 
  
@@ -65,8 +65,8 @@ class CartManager {
       
     
       let cartById = await this.readCarts(cartId)
-      let existCart = cartById.find(cart => cart.id == cartId);
-      console.log(existCart)
+      let actualCarts = cartById.find(cart => cart.id == cartId);
+      console.log(actualCarts)
 
       
       let productById = await products.readProducts(prodId);
@@ -74,21 +74,21 @@ class CartManager {
 
       console.log(existProduct)
 
-   const cartsOld = await this.deleteCart(cartId);
-   console.log(cartsOld)
+   const oldCarts = await this.deleteCart(cartId);
+   console.log(oldCarts)
 
 
-      let existingProductInCart = existCart.productos.find(product => product.id === prodId);
+      let existingProductInCart = actualCarts.productos.find(product => product.id === prodId);
 
   if (existingProductInCart) {
     existingProductInCart.quantity += 1;
   } else {
-    existCart.productos.push({ id: prodId, quantity: 1 });
+    actualCarts.productos.push({ id: prodId, quantity: 1 });
   }
       
-    let allCarts = [...cartsOld, existCart];
+    let allCarts = [...oldCarts, actualCarts];
     await this.writeCarts(allCarts);
-    return `El producto "${existProduct.title}" fue añadido exitosamente agregado al carrito: ${cartId}`;
+    return `El producto "${existProduct.title}" fue añadido exitosamente al carrito: ${cartId}`;
 
 
   };

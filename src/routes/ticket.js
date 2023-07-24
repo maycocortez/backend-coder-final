@@ -8,11 +8,9 @@ const ticketRouter = Router()
 ticketRouter
   .use('/', express.static(__dirname + '/public'))
   .get('/', async (req, res) => {
-    // Buscamos los Datos del Ticket
     const ticket = await findTicket({ code: req.session.ticketCode })
-    // Renderizamos el Ticket
     res.render('ticket', {
-      title: 'Ticket | Backend',
+      title: 'Ticket de compra',
       nameUser: req.session.nameUser,
       rol: req.session.role,
       emptyCart: true,

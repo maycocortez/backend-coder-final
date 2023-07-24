@@ -5,10 +5,11 @@ export const createRoles = async () => {
     const count = await roleModel.estimatedDocumentCount();
     if (count > 0) return;
 
-    const values = await Promise.all([
+    const result = await Promise.all([
       roleModel.create({ name: "admin" }),
       roleModel.create({ name: "user" }),
-    ]);
+    ])
+    logger.info(result)
   } catch (error) {
     logger.error(error)
   }

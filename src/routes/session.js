@@ -21,6 +21,7 @@ sessionRouter
       passReqToCallback: true,
       failureFlash: true
     })
+    
   )
   .post(
     '/register',
@@ -28,9 +29,11 @@ sessionRouter
       successRedirect: '/api/session',
       failureRedirect: '/api/session',
       passReqToCallback: true,
-      failureFlash: true
+      failureFlash: true,
     })
   )
+
+
   .get(
     '/githubsession',
     passport.authenticate('github', {
@@ -42,7 +45,9 @@ sessionRouter
   )
  
   .get('/logout', (req, res, next) => {
+    console.log('Inicio de logout');
     session.destroySession(req, res, next)
+    console.log('Fin de logout');
   })
   .get(
     '/jwt',
@@ -50,13 +55,18 @@ sessionRouter
       res.status(200).send(req.user)
     })
   )
-  .get(
-    '/current',
+
+  .get('/current', (req, res,next) => {
+    console.log('Inicio del test');
+    console.log('Cookies:', req.cookies); 
+    console.log('Session:', req.session);
     passportCall('jwt'),
-    authorizationRole('User'),
+    authorizationRole('admin'),
     (req, res) => {
       res.send(req.user)
     }
-  )
+    console.log('Fin del test');
+    next()
+  })
 
 export default sessionRouter

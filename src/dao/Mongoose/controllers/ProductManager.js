@@ -21,27 +21,27 @@ class CrudMongoose {
     return products.find(prod => prod.id === id)
   }
 
-  category = async () => {
-    const categorys = await productService.findProducts({})
-    const selectCategory = []
-    for (const prodCategory of categorys) {
-      selectCategory.push(prodCategory.category)
+  categorie = async () => {
+    const categorie = await productService.findProducts({})
+    const selectCategorie = []
+    for (const prodCategorie of categorie) {
+      selectCategorie.push(prodCategorie.category)
     }
-    const single = new Set(selectCategory)
-    const categorySingle = [...single].sort()
-    return categorySingle
+    const single = new Set(selectCategorie)
+    const categorieSingle = [...single].sort()
+    return categorieSingle
   }
 
   findProducts = async data => {
-    const category = await this.category()
+    const categorie = await this.categorie()
     if (data) {
-      const category =
-        data.category === undefined ? {} : { category: data.category }
+      const categorie =
+        data.categorie === undefined ? {} : { categorie: data.categorie}
       const limit = parseInt(data.limit, 10) || 4
       const page = parseInt(data.page, 10) || 1
       const skip = limit * page - limit
       const sort = data.sort || 'asc'
-      const filter = await productService.findPaginateProducts(category, {
+      const filter = await productService.findPaginateProducts(categorie, {
         limit,
         page,
         skip,
@@ -52,13 +52,13 @@ class CrudMongoose {
           ...filter,
           prevLink: `http://localhost:${PORT}/products/${page - 1}`,
           nextlink: `http://localhost:${PORT}/products/${page + 1}`,
-          category
+          categorie
         }
       ]
     } else {
       const limit = 4
       const page = 1
-      const productsAll = await productService.findPaginateProducts(
+      const products = await productService.findPaginateProducts(
         {},
         {
           limit,
@@ -68,10 +68,10 @@ class CrudMongoose {
       )
       return [
         {
-          ...productsAll,
+          ...products,
           prevLink: `http://localhost:${PORT}/products/${page - 1}`,
           nextlink: `http://localhost:${PORT}/products/${page + 1}`,
-          category
+          categorie
         }
       ]
     }
@@ -83,33 +83,33 @@ class CrudMongoose {
     return product
   }
 
-  findProductsAll = async () => {
+  findAllProducts = async () => {
     return productService.findProducts()
   }
 
-  createProducts = async newProduct => {
-    if (this.objectKeys(newProduct) === 400) {
+  createProducts = async product => {
+    if (this.objectKeys(product) === 400) {
       return 'Faltan datos'
     }
-    await productService.createProduct(newProduct)
+    await productService.createProduct(product)
     return 'Producto agregado'
   }
 
-  updateProducts = async (id, updateProduct) => {
+  updateProducts = async (id, productToUpdate) => {
     const product = await this.exist(id)
     if (!product) return 'No se encontro el producto'
-    if (this.objectKeys(updateProduct) === 400) {
+    if (this.objectKeys(productToUpdate) === 400) {
       return 'Faltan datos'
     }
-    await productService.findByIdAndUpdate(id, updateProduct)
+    await productService.findByIdAndUpdate(id, productToUpdate)
     return 'Producto editado'
   }
 
   deleteProductsById = async id => {
     const product = await this.exist(id)
     if (!product) return 'No se encontro el producto'
-    const result = await productService.findByIdAndDelete(id)
-    return `Producto ${result.title} eliminado`
+    const deletedProduct = await productService.findByIdAndDelete(id)
+    return `Producto ${deletedProduct.title} eliminado`
   }
 }
 

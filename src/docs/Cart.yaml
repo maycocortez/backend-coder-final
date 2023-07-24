@@ -108,4 +108,4 @@ components:
           description: Productos
       example:
         _id: ObjectId('640675c34d14e645df804cbd')
-        products: [{ _id: ObjectId('640675c34d14e645df804cba') }]
+        products: [{ _id: ObjectId('64134c217b09bb9623e282cb') }]

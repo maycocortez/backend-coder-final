@@ -1,9 +1,9 @@
 import __dirname from "../utils.js";
 import express, { Router } from "express";
 
-const error404Router = Router();
+const errorRouter = Router();
 
-error404Router
+errorRouter
   .use("/", express.static(__dirname + "/public"))
   .use("/", (req, res, next) => {
     res.status(404).render("404", {
@@ -12,4 +12,4 @@ error404Router
     });
   });
 
-  export default error404Router
+  export default errorRouter

@@ -7,7 +7,7 @@ const socketRouter = Router()
 const Products = new CrudMongoose()
 
 socketRouter.get('/', async (req, res) => {
-  const products = await Products.findProductsAll()
+  const products = await Products.findAllProducts()
   io.on('connection', socket => {
     socket.on('messaje', data => {
       logger.info(data)

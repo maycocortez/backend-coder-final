@@ -1,21 +1,21 @@
 import { Router } from "express";
-import ProductManager from "../dao/FileSystem/controllers/ProductManager.js";
+import ProductManager from "../dao/FileSystem/controllers/ProductManager.js"
 import { logger } from '../../utils/logger.js'
-const productRouter = Router();
+const productFSRouter = Router();
 
-const productos = new ProductManager();
+const products = new ProductManager();
 
-productRouter.get("/", async (req, res) => {
+productFSRouter.get("/", async (req, res) => {
   try {
-    res.send(await productos.getProducts(req.query.limit));
+    res.send(await products.getProducts(req.query.limit));
   } catch (error) {
     logger.error(error);
   }
 });
-productRouter
+productFSRouter
   .get("/:id", async (req, res) => {
     try {
-      let getProductById = await productos.getProductsById(req.params.id);
+      let getProductById = await products.getProductsById(req.params.id);
       if (getProductById === "Not found")
         return res
           .status(404)
@@ -26,7 +26,7 @@ productRouter
     }
   })
   .post("/", async (req, res) => {
-    let addProduct = await productos.addProduct(req.body);
+    let addProduct = await products.addProduct(req.body);
     if (addProduct === "Faltan datos")
       return res.status(400).send({ error: "Faltan Datos" });
     return res.send(addProduct);
@@ -34,7 +34,7 @@ productRouter
   .put("/:id", async (req, res) => {
     const { id } = req.params;
     const modify = req.body;
-    let editProducts = await productos.updateProduct(id, modify);
+    let editProducts = await products.updateProducts(id, modify);
     if (editProducts === "No existe el producto")
       return res
         .status(404)
@@ -46,10 +46,9 @@ productRouter
     return res.send(editProducts);
   })
   .delete("/:id", async (req, res) => {
-    let { id } = req.params;
-    let productDelete = await productos.deleteProducts(id);
+    let productDelete = await products.deleteProductById();
   
     res.send(productDelete);
   });
 
-export default productRouter;
+export default productFSRouter;

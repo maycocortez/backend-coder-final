@@ -6,11 +6,7 @@
       {{#each cartsProducts}}
         <li class="cardPreviusItems">
            <div class="img-info">
-            <img
-              alt={{this.title}}
-              class="imgCartPrevius"
-              src={{this.thumbnail}}
-            ></img>
+
             <div class="infoPrevius">
               <p class="infoTitle">{{this.title}}</p>
               <p class="infoCant">
@@ -22,15 +18,10 @@
             </div>
           </div>
           <div class="delete-price">
-            <div class="cartDelete" id="cartDelete" data-id={{this.id}}>
-              <span class="icon">
-	            	<span class="lid"></span>
-	            	<span class="can"></span>
-	            	<span class="trash"></span>
-	            </span>
+            <div class="removeProducts" id="removeProducts" data-id={{this.id}}>
             </div>
             <div class="price-conten">
-              <p>$</p>
+              <p> = $</p>
               <p class="price">{{this.totalPrice}}</p>
             </div>
           </div>

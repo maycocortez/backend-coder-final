@@ -3,13 +3,13 @@ import * as cartService from '../../../services/cart.js'
 
 class CartMongooseManager {
   existCarts = async id => {
-    const cartsAll = await cartService.findCarts()
-    return cartsAll.find(cart => cart.id === id)
+    const carts = await cartService.findCarts()
+    return carts.find(cart => cart.id === id)
   }
 
   existProduct = async id => {
-    const productsAll = await findProducts()
-    return productsAll.find(product => product.id === id)
+    const products = await findProducts()
+    return products.find(product => product.id === id)
   }
 
   findCarts = async () => {
@@ -35,10 +35,10 @@ class CartMongooseManager {
     const product = await this.existProduct(idProduct)
     if (!product) return 'No se encontro el producto'
 
-    const productInCart = cart.products.some(
+    const purchaseProduct = cart.products.some(
       product => product.id === idProduct
     )
-    if (!productInCart) {
+    if (!purchaseProduct) {
       const addProduct = [{ _id: product.id, quantity: 1 }, ...cart.products]
       await cartService.findCartByIdAndUpdate(idCart, { products: addProduct })
       return `Producto ${product.title} agregado . Cantidad: 1`
@@ -63,10 +63,10 @@ class CartMongooseManager {
     const cart = await this.existCarts(idCart)
     if (!cart) return 'No se encontro el carrito'
 
-    const productInCart = cart.products.some(
+    const purchaseProduct = cart.products.some(
       product => product.id === idProduct
     )
-    if (!productInCart) {
+    if (!purchaseProduct) {
       return 'No se encontro el producto'
     } else {
       const indexProduct = cart.products.findIndex(
@@ -77,6 +77,26 @@ class CartMongooseManager {
         products: cart.products
       })
       return `Producto actualizado. Cantidad: ${newQuantity}`
+    }
+  }
+  updateCartsProducts = async () => {
+    try {
+      const carts = await cartService.findCarts();
+      for (const cart of carts) {
+        const products = cart.products;
+        for (const product of products) {
+          const existingProduct = await this.existProduct(product._id);
+          if (existingProduct) {
+            product.title = existingProduct.title;
+            product.price = existingProduct.price;
+            await cartService.findCartByIdAndUpdate(cart._id, { products });
+          }
+        }
+      }
+  
+      return 'Productos de los carritos actualizados correctamente';
+    } catch (err) {
+      return 'Error al actualizar los productos de los carritos';
     }
   }
 
@@ -91,10 +111,10 @@ class CartMongooseManager {
     const cart = await this.existCarts(idCart)
     if (!cart) return 'No se encontro el carrito'
 
-    const productInCart = cart.products.some(
+    const purchaseProduct = cart.products.some(
       product => product.id === idProduct
     )
-    if (!productInCart) {
+    if (!purchaseProduct) {
       return 'No se encontro el producto'
     } else {
       const productsUpdate = cart.products.filter(
@@ -107,12 +127,15 @@ class CartMongooseManager {
     }
   }
 
-  emptycart = async id => {
-    const cart = await this.existCarts(id)
-    if (!cart) return 'No se encontro el carrito'
-    await cartService.findCartByIdAndUpdate(id, { products: [] })
-    return 'Carrito vaciado'
-  }
+
+
+  deleteAllProductsFromCart = async (idCart) => {
+    const cart = await this.existCarts(idCart);
+    if (!cart) return 'No se encontro el carrito';
+  
+    await cartService.findCartByIdAndUpdate(idCart, { products: [] });
+    return 'Se eliminaron todos los productos del carrito.';
+  };
 }
 
 export default CartMongooseManager

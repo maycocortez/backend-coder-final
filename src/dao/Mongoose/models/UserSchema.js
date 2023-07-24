@@ -62,8 +62,8 @@ UserSchema.static('verifyToken', async token => {
 });
 
 UserSchema.static('addCartToUser', async () => {
-  const newCart = await cartsModel.create({ products: [] });
-  return newCart._id;
+  const cart = await cartsModel.create({ products: [] });
+  return cart._id;
 });
 
 export default model('User', UserSchema);

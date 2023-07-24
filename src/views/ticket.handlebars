@@ -1,38 +1,38 @@
-<main class='mainHome'>
-  <div >
-    <div >
-    </div>
-    <h3>Ticket</h3>
-    <div>
-
-    </div>
-
-
-
-    {{#each products}}
+<main class="mainHome">
+  <div class="ticket-main">
+    <div class="ticket-info">
       <div>
-            <p> Nombre: {{this.name}}</p>
-          <p>Precio: $ {{this.price}}</p>
-          <span>Cantidad de unidades : {{this.quantity}}</span>
-         <p>Total: $ {{this.totalPrice}}</p>
-          </div>
+        <h3>Ticket</h3>
+        <div class="ticket-product-info">
+          {{#each products}}
+            <div class="product-info">
+              <img
+                src={{this.thumbnail}}
+                alt="{{this.title}}"
+                class="product-thumbnail"
+              />
+              <p>Nombre: {{this.name}}</p>
+              <p>Precio: $ {{this.price}}</p>
+              <p>Cantidad de unidades: {{this.quantity}}</p>
+              <p>Total: $ {{this.totalPrice}}</p>
+            </div>
+          {{/each}}
         </div>
       </div>
-    {{/each}}
-
-
-
-    <div>
-      <span>Total</span>
-
+      <div class="ticket-total">
+        <span>Total</span>
         <p>$</p>
-        <p >{{amount}}</p>
+        <p class="ticket-amount">{{amount}}</p>
+      </div>
     </div>
-    <div>Nombre:
-      <strong>{{namePurchase}}</strong></div>
-    <div>Dirección: <strong>{{address}}</strong></div>
-    <div ><span> Codigo :{{code}}</span></div>
-      <a href="/products/1">Volver al inicio</a>
-
+    <div class="ticket-user-info">
+      <div>Nombre: <strong>{{namePurchase}}</strong></div>
+      <div>Dirección: <strong>{{address}}</strong></div>
+      <div>
+        <span>Codigo:</span>
+        <strong>{{code}}</strong>
+      </div>
+    </div>
+    <a href="/products/1" class="ticket-link">Volver al inicio</a>
   </div>
 </main>

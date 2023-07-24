@@ -1,10 +1,10 @@
 import { Router } from "express";
 import CartsManager from "../dao/FileSystem/controllers/CartsManager.js";
 
-const cartsRouter = Router();
+const normalCartsRouter = Router();
 const carts = new CartsManager();
 
-cartsRouter
+normalCartsRouter
   .post("/", async (req, res) => {
     let carts1 = await carts.addCarts();
     res.send(carts1);
@@ -27,4 +27,4 @@ cartsRouter
     return res.send(cartProducts);
   });
 
-export default cartsRouter;
+export default normalCartsRouter;

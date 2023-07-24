@@ -29,8 +29,8 @@ class UserService {
     return this.model.encryptPassword(password)
   }
 
-  comparePassword = async (password, receivedPassword) => {
-    return this.model.comparePassword(password, receivedPassword)
+  comparePassword = async (password, passwordReciebed) => {
+    return this.model.comparePassword(password, passwordReciebed)
   }
 
   createToken = async user => {
@@ -48,13 +48,11 @@ class UserService {
         throw new Error('Usuario no encontrado');
       }
 
-      // Obtener los nombres y referencias de los documentos subidos
       const documents = files.map(file => ({
         name: file.originalname,
         reference: file.filename
       }));
 
-      // Actualizar el usuario con los nuevos documentos
       user.documents = documents;
       await user.save();
 
